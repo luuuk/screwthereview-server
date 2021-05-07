@@ -1,6 +1,6 @@
 # screwthereview-server
 
-This repo hosts the code for the server for screw the review. It deploys to Heroku at hidden-mesa-04199.herokuapp.com/
+This repo hosts the code for the server for screw the review. The client code can be found at https://github.com/mackenzieleach/screwthereview. It deploys to Heroku at hidden-mesa-04199.herokuapp.com/
 
 The server has no frontend! To use it, make an API call to the endpoint above (Required parameter location: String, optional categories: String[], optional price: Int between 1-4
 
