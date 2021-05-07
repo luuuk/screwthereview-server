@@ -1,15 +1,16 @@
 require('dotenv').config();
 const axios = require('axios');
 var express = require('express');
+var cors = require('cors');
 
 const baseURL = "https://api.yelp.com/v3/businesses/search";
 const descURL = "https://www.yelp.com/biz/"; // TBD, this could change
 
 var port = process.env.PORT || 7000;
-var app = express();
+var server = express().use(cors());
 
 // Creates a server that responds with a JSON String representing a business
-app.get('/', function (req, res) {
+server.get('/', function (req, res) {
     // req.headers.location, .categories{<CSV of valid Yelp categories>}, and .price
     if (!req.headers.location) {
         console.log("404 Error - no location provided")
@@ -23,7 +24,7 @@ app.get('/', function (req, res) {
     }
 });
 
-app.listen(port, function () {
+server.listen(port, function () {
     console.log(`Example app listening on port` + port);
 });
 
