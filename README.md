@@ -2,7 +2,7 @@
 
 This repo hosts the code for the server for screw the review. It deploys to Heroku at hidden-mesa-04199.herokuapp.com/
 
-The server has no frontend! To use it, make an API call to the endpoint above (Required parameter location: <String>, optional categories: <String>[], optional price: <Int between 1-4>
+The server has no frontend! To use it, make an API call to the endpoint above (Required parameter location: String, optional categories: String[], optional price: Int between 1-4
 
 To update the server locally, you need to install the Heroku CLI via homebrew or another package manager. You still add and commit files to git the same way 
 as normal, but when pushing run `git push heroku master` to push and deploy to the site. 
