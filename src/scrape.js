@@ -64,12 +64,13 @@ function getExperience(searchURL, response){
         } else {
             response.writeHead(200, {'Content-Type': 'text/json'});
             console.log("Found business " + randomBiz.name)
-            response.write(JSON.stringify(randomBiz));
 
             //TODO: Scrape and append Business Description and Hours to business
             var bizDescription = scrapeDescription(randomBiz);
             console.log("Found description: " + bizDescription)
-            response.write(JSON.stringify(bizDescription))
+            randomBiz = Object.assign({}, randomBiz, bizDescription)
+
+            response.write(JSON.stringify(randomBiz))
         }
         response.end();
     }).catch(err => {
