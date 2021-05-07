@@ -7,7 +7,7 @@ The server has no frontend! To use it, make an API call to the endpoint above (R
 To update the server locally, you need to install the Heroku CLI via homebrew (`brew tap heroku/brew && brew install heroku`)
 
 or another package manager. You still add and commit files to git the same way 
-as normal, but when pushing run `git push heroku master` to push and deploy to the site. 
+as normal, but when pushing run `git push heroku main` to push and deploy to the site. 
 
 You may also need to set your API key localyl. This can be done by running 
 `heroku config:set YELP_API_KEY=<YOUR_API_KEY>`
