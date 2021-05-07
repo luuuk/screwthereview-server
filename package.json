@@ -2,8 +2,9 @@
   "name": "screwthereview-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "scrape.js",
   "scripts": {
+    "start": "node scrape.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
