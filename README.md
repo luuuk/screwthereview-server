@@ -87,9 +87,11 @@ For more information about Heroku CLI Authentication, visit <https://devcenter.h
 &nbsp; 
 
 #### Step 3: Local Development
-This repository welcomes pull requests from developers interested in contributing to the code base. To begin, checkout a new branch by running `git checkout -b <branch-name>`. You can now switch to this new branch by running `git checkout <branch-name>` and make changes to the code. Staging and committing files can be done with standard Git commands. However, pushing to your branch requires a different command: 
+This repository welcomes pull requests from developers interested in contributing to the code base. To begin, checkout a new branch by running `git checkout -b <branch-name>`. You can now switch to this new branch by running `git checkout <branch-name>` and make changes to the code. 
 
-`git push heroku <branch-name>`
+To view your local changes, you can run `heroku local` to start a local development server. This job will start a server at `localhost:7000` whihc you can test using Postman or CURL.
+
+Staging, committing, and pushing files can be done with standard Git commands. Heroku and Github Actions will take care of deploying changes to the server when they are merged into main. 
 
 To create a pull request for your branch, navigate to the repository at <https://github.com/luuuk/screwthereview-server> and visit the pull request tab. The pull request must have a descriptive title, detail changes to the code and include tests for the changes. The pull request will be reviewed by a repository maintainer. 
 
