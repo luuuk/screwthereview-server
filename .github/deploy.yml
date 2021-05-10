@@ -1,0 +1,22 @@
+name: Deploy to Heroku
+env:
+      YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
+  on:
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
+jobs:
+  build:
+    name: Deploy to Heroku
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "hidden-mesa-04199" #Must be unique in Heroku
+          heroku_email: "luke.levasseur16@gmail.com"
