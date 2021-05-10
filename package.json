@@ -4,7 +4,7 @@
   "description": "",
   "main": "scrape.js",
   "scripts": {
-    "serve": "node src/scrape.js",
+    "start": "node src/server.js",
     "test": "jest --testPathPattern=../__tests__"
   },
   "jest": {
