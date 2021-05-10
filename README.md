@@ -37,6 +37,8 @@ location | String | Required
 categories | String[]| Optional   
 price | Int from 1 - 4 | Optional  
 
+To test the API, uers can utilize the CLI (with the `curl` command) and/or make API calls from a GUI service like Postman. Either way, 
+
 &nbsp;  
 
 ### Option 2: Local Server
