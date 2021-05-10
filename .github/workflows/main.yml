@@ -15,7 +15,7 @@ jobs:
       run: yarn test "../__tests__"
   
   build:
-    name: Request Netlify Webhook
+    name: Deploy to Heroku
     needs: test
     runs-on: ubuntu-latest
     steps:
