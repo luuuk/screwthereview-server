@@ -3,11 +3,25 @@ const axios = require('axios');
 var express = require('express');
 var cors = require('cors');
 
+// Whitelist is localhost:3000 for development and production site URL
+const whitelist = ['http://localhost:3000', 'https://screwthereview.netlify.app']
+
 const baseURL = "https://api.yelp.com/v3/businesses/search";
 const descURL = "https://www.yelp.com/biz/"; // TBD, this could change
 
 var port = process.env.PORT || 7000;
-var server = express().use(cors());
+var server = express().use(cors({
+    origin: function(origin, callback){
+      // allow requests with no origin (e.g postman)
+      if(!origin) return callback(null, true);
+      if(whitelist.indexOf(origin) === -1){
+        var message = 'The CORS policy for this origin doesnt ' +
+                  'allow access from the particular origin: ' + origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  }));
 
 // Creates a server that responds with a JSON String representing a business
 server.get('/', function (req, res) {
