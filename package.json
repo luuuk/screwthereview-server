@@ -4,8 +4,13 @@
   "description": "",
   "main": "scrape.js",
   "scripts": {
-    "start": "node src/scrape.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "node src/scrape.js",
+    "test": "jest --testPathPattern=../__tests__"
+  },
+  "jest": {
+    "globals": {
+      "PATH": "http://localhost:7000"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +19,9 @@
     "cors": "^2.8.5",
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
-    "http": "^0.0.1-security"
+    "fetch": "^1.1.0",
+    "http": "^0.0.1-security",
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3"
   }
 }
