@@ -1,7 +1,7 @@
 name: Deploy to Heroku
 env:
       YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
-  on:
+on:
     push:
       branches:
         - main
@@ -11,7 +11,6 @@ env:
 jobs:
   build:
     name: Deploy to Heroku
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
