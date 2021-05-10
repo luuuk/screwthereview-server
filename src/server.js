@@ -76,14 +76,13 @@ function getExperience(searchURL, response){
     }).catch(err => {
         if (err.response) {
             // client received an error response (5xx, 4xx)
-            response.writeHead(err.response.status, "error from yelp");
+            response.writeHead(err.response.status, "500");
             response.write("Yelp doesn't like your request. Try again. Remember, categories must be valid from Yelp and price must be an int between 1 and 4")
             console.log("Error from Yelp")
             console.log(err.response)
           } else if (err.request) {
             // client never received a response, or request never left
-            response.writeHead(err.request, "error on request");
-            // response.write("Yelp doesn't like your request. Try again. Remember, categories must be valid from Yelp and price must be an int between 1 and 4")
+            response.writeHead(err.request, "500");
             console.log("Error sending request");
           } else {
             // anything else
@@ -110,3 +109,5 @@ function scrapeDescription(biz){
     //description - Class starts w 
     // $('[class^="business"]').get()
 }
+
+module.exports=server;
