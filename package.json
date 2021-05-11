@@ -11,7 +11,7 @@
     "globals": {
       "PATH": "http://localhost:7000"
     },
-    "testTimeout" : 2000
+    "testTimeout" : 5000
   },
   "author": "",
   "license": "ISC",
