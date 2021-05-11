@@ -5,7 +5,7 @@ const express = require('express');
 const cors = require('cors');
 
 // Whitelist is localhost:3000 for development and production site URL
-const whitelist = ['http://localhost:3000', 'https://screwthereview.netlify.app'];
+const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://screwthereview.netlify.app'];
 
 const baseURL = 'https://api.yelp.com/v3/businesses/search';
 // eslint-disable-next-line no-unused-vars
