@@ -40,12 +40,11 @@ function constructURL(req) {
     for (let i = 1; i < catList.length; i += 1) {
       URL = `${URL},${catList[i]}`;
     }
-
-    URL += '&limit=50';
-    const randomNum = Math.floor(Math.random() * 100);
-    URL = `${URL}&offset=${randomNum}`;
-    console.log(URL);
   }
+
+  URL += '&limit=50';
+  const randomNum = Math.floor(Math.random() * 1000);
+  URL = `${URL}&offset=${randomNum}`;
 
   return URL;
 }
