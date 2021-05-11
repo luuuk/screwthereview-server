@@ -44,6 +44,7 @@ function constructURL(req) {
     URL += '&limit=50';
     const randomNum = Math.floor(Math.random() * 100);
     URL = `${URL}&offset=${randomNum}`;
+    console.log(URL);
   }
 
   return URL;
