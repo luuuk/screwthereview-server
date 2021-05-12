@@ -1,20 +1,15 @@
-// const request = require('supertest')
-// const app = 'https://hidden-mesa-04199.herokuapp.com/'
-// const app_local = require('../src/server.js')
+/* eslint-disable no-undef */
+/* eslint-disable indent */
+let request = require('supertest');
 
-// var yelp = require('supertest')
-// yelp = yelp('https://api.yelp.com/v3/businesses/search')
+const URL = 'https://hidden-mesa-04199.herokuapp.com/';
+request = request(URL);
+const yelpIDLength = 22;
 
-// describe('Yelp ', () => {
-//   it('ensures that the Yelp API is functional', async () => {
-//         const response = await yelp.get('').set('location', 'austin').set('Authorization', 'Bearer ' + process.env.YELP_API_KEY)
-//         console.log(response)
-//         expect(response).to
-//     });
-// })
-
-describe('Sample Test', () => {
-    it('should test that true === true', () => {
-      expect(true).toBe(true)
-    })
-  })
+describe('Server tests ', () => {
+  it('ensures that the heroku deployed server is functional', async () => {
+      const response = await request.get('').set('location', 'austin');
+      const result = JSON.parse(response.text);
+      expect(result.id).toHaveLength(yelpIDLength);
+  });
+});

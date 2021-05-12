@@ -1,6 +1,7 @@
-// This class is a WIP exploration into using Google's places API instead of Yelps. This would only be a go if Yelp Descriptions prove to be like really really hard to scrape.
+// This class is a WIP exploration into using Google's places API instead of Yelps. 
+// This would only be a go if Yelp Descriptions prove to be like really really hard to scrape.
 
-const {Client} = require("@googlemaps/google-maps-services-js");
+const {Client} = require('@googlemaps/google-maps-services-js');
 
 const client = new Client({});
 
