@@ -1,22 +1,17 @@
-name: Run server tests + deploy to Heroku
+name: Deploy to Heroku
 
 env:
       YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
-on: [push, pull_request]
-
+on:
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install Yarn Modules
-      run: yarn
-    - name: Run Jest Tests
-      run: yarn test "../__tests__"
-  
   build:
     name: Deploy to Heroku
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

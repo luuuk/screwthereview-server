@@ -41,6 +41,7 @@ keywords | String | Optional
 
 To test the API, uers can utilize the CLI (with the `curl` command) and/or make API calls from a GUI service like Postman. For more information on using Postman, please visit <https://www.postman.com/>.
 
+
 &nbsp;  
 
 ### Option 2: Local Server
@@ -91,7 +92,7 @@ For more information about Heroku CLI Authentication, visit <https://devcenter.h
 #### Step 3: Local Development
 This repository welcomes pull requests from developers interested in contributing to the code base. To begin, checkout a new branch by running `git checkout -b <branch-name>`. You can now switch to this new branch by running `git checkout <branch-name>` and make changes to the code. 
 
-To view your local changes, you can run `heroku local` to start a local development server. This job will start a server at `localhost:7000` whihc you can test using Postman or CURL.
+To view your local changes, you can run `heroku local` to start a local development server. This job will start a server at `localhost:5000` which you can test using Postman, CURL, or Chrome Developer Tools.
 
 Staging, committing, and pushing files can be done with standard Git commands. Heroku and Github Actions will take care of deploying changes to the server when they are merged into main. 
 
