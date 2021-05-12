@@ -35,9 +35,10 @@ This option is best for those wanting to understand data returned by the server.
 ------------ | ------------------------|------------
 location | String | Required
 categories | String[]| Optional   
-price | Int from 1 - 4 | Optional  
+radius | String (X mi) | Optional
+keywords | String | Optional
 
-To test the API, uers can utilize the CLI (with the `curl` command) and/or make API calls from a GUI service like Postman. Either way, 
+To test the API, uers can utilize the CLI (with the `curl` command) and/or make API calls from a GUI service like Postman. For more information on using Postman, please visit <https://www.postman.com/>.
 
 &nbsp;  
 
