@@ -11,44 +11,6 @@ const baseURL = 'https://api.yelp.com/v3/businesses/search';
 // eslint-disable-next-line no-unused-vars
 const descURL = 'https://www.yelp.com/biz/'; // TBD, this could change
 
-// Requires location parameter
-// Optional category (array) and price (string) params
-function constructURL(req) {
-  let URL = `${baseURL}?location=${req.headers.location}`;
-
-  if (req.headers.price) {
-    URL = `${URL}&price=${req.headers.price}`;
-  }
-
-  if (req.headers.radius) {
-    const metersPerMile = 1609.344;
-    const miles = req.headers.radius.split(' ')[0];
-    URL = `${URL}&radius=${Math.round(miles * metersPerMile)}`;
-  }
-
-  if (req.headers.keywords) {
-    const keywordList = req.headers.keywords.split(', ');
-    URL = `${URL}&term=${keywordList[0]}`;
-    for (let i = 1; i < keywordList.length; i += 1) {
-      URL = `${URL},${keywordList[i]}`;
-    }
-  }
-
-  if (req.headers.categories) {
-    const catList = req.headers.categories.split(', ');
-    URL = `${URL}&categories=${catList[0]}`;
-    for (let i = 1; i < catList.length; i += 1) {
-      URL = `${URL},${catList[i]}`;
-    }
-  }
-
-  URL += '&limit=50';
-  const randomNum = Math.floor(Math.random() * 1000);
-  URL = `${URL}&offset=${randomNum}`;
-
-  return URL;
-}
-
 // Scrapes description and hours from Yelp business page
 // eslint-disable-next-line no-unused-vars
 function scrapeDescription(biz) {
@@ -68,8 +30,8 @@ function scrapeDescription(biz) {
 }
 
 // Returns a new experience from the Yelp API
-function getExperience(searchURL, response) {
-  axios.get(searchURL, {
+function getExperience(URL, req, response) {
+  axios.get(URL, {
     headers: {
       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
     },
@@ -112,6 +74,60 @@ function getExperience(searchURL, response) {
   });
 }
 
+// Constructs the search URL to use in the Yelp API
+// Takes a request and response fron Axios as Parameters
+// ------------------------------------------------------
+// Sends an initial request to Yelp to determine total # of results, then uses this information to
+// pick a random business from the returned results
+function constructURL(req, res) {
+  console.log('Constructing URL');
+  let URL = `${baseURL}?location=${req.headers.location}`;
+
+  if (req.headers.price) {
+    URL = `${URL}&price=${req.headers.price}`;
+  }
+
+  if (req.headers.radius) {
+    const metersPerMile = 1609.344;
+    const miles = req.headers.radius.split(' ')[0];
+    URL = `${URL}&radius=${Math.round(miles * metersPerMile)}`;
+  }
+
+  if (req.headers.keywords) {
+    const keywordList = req.headers.keywords.split(', ');
+    URL = `${URL}&term=${keywordList[0]}`;
+    for (let i = 1; i < keywordList.length; i += 1) {
+      URL = `${URL},${keywordList[i]}`;
+    }
+  }
+
+  if (req.headers.categories) {
+    const catList = req.headers.categories.split(', ');
+    URL = `${URL}&categories=${catList[0]}`;
+    for (let i = 1; i < catList.length; i += 1) {
+      URL = `${URL},${catList[i]}`;
+    }
+  }
+
+  URL += '&limit=50';
+
+  axios.get(URL, {
+    headers: {
+      Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+    },
+  }).then((value) => {
+    const randomNum = Math.floor(Math.random() * Math.min(value.data.total, 1000));
+    URL = `${URL}&offset=${randomNum}`;
+    console.log(`Got ${value.data.total} experiences`);
+    console.log(URL);
+    getExperience(URL, req, res);
+  }).catch((err) => {
+    console.log(`Error on initial Yelp request ${err}`);
+    return err;
+  });
+}
+
+// Define app and check request against whitelist
 const app = express().use(cors({
   origin(origin, callback) {
     // allow requests with no origin (e.g postman)
@@ -129,18 +145,13 @@ const app = express().use(cors({
 
 // Creates a server that responds with a JSON String representing a business
 app.get('/', (req, res) => {
-  // req.headers.location, .categories{<CSV of valid Yelp categories>},
-  // and .price, .radius (String in format "number mi"),
-  // and .keywords{<CSV of valid Yelp categories>}
   if (!req.headers.location) {
     console.log('404 Error - no location provided');
     res.writeHead(404, 'error');
     res.write('No location provided - please input a location');
     res.end();
   } else {
-    const URL = constructURL(req);
-    console.log(`Getting business from ${URL}`);
-    getExperience(URL, res);
+    constructURL(req, res);
   }
 });
 
