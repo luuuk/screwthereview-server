@@ -79,7 +79,7 @@ To make changes to this code base, you will need to set an API Key for Heroku lo
 - Create an account with [Heroku](https://www.heroku.com/)
 - In your CLI, run the command `heroku login` to generate the API key. 
 - Run the command `heroku auth:token` to obtain your API key
-- Run the command `heroku config:set YELP_API_KEY=<YOUR_API_KEY>` from your CLI to configure your API key.  
+- Open the .env file and replace `<YOU_API_KEY>` with your Yelp API key - Heroku will read this and use it for testing local requests on the server.  
 
 &nbsp; 
 
