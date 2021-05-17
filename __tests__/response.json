@@ -1,0 +1,50 @@
+{
+  "id": "TNg7uPTG8b0cegueVzdyPw",
+  "alias": "fat-ducks-deli-and-bakery-seattle",
+  "name": "Fat Ducks Deli & Bakery",
+  "image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/dg7TZpxNge7LRLYUfcWQ5g/o.jpg",
+  "is_closed": false,
+  "url": "https://www.yelp.com/biz/fat-ducks-deli-and-bakery-seattle?adjust_creative=P0UvbMlSkpmHKWmLqHKTjQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=P0UvbMlSkpmHKWmLqHKTjQ",
+  "review_count": 438,
+  "categories": [
+      {
+          "alias": "delis",
+          "title": "Delis"
+      },
+      {
+          "alias": "bakeries",
+          "title": "Bakeries"
+      },
+      {
+          "alias": "sandwiches",
+          "title": "Sandwiches"
+      }
+  ],
+  "rating": 4.5,
+  "coordinates": {
+      "latitude": 47.66887,
+      "longitude": -122.31327
+  },
+  "transactions": [
+      "delivery",
+      "pickup"
+  ],
+  "price": "$",
+  "location": {
+      "address1": "5509 University Way NE",
+      "address2": "",
+      "address3": "",
+      "city": "Seattle",
+      "zip_code": "98105",
+      "country": "US",
+      "state": "WA",
+      "display_address": [
+          "5509 University Way NE",
+          "Seattle, WA 98105"
+      ]
+  },
+  "phone": "+12062574798",
+  "display_phone": "(206) 257-4798",
+  "distance": 5111.803077956135,
+  "description": "Test Description"
+}

@@ -30,7 +30,7 @@ function scrapeDescription(biz) {
 }
 
 // Returns a new experience from the Yelp API
-function getExperience(URL, req, response) {
+function getExperience(URL, response) {
   axios.get(URL, {
     headers: {
       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
@@ -53,7 +53,7 @@ function getExperience(URL, req, response) {
 
       response.write(JSON.stringify(randomBiz));
     }
-    response.end();
+    response.send();
   }).catch((err) => {
     if (err.response) {
       // client received an error response (5xx, 4xx)
@@ -120,7 +120,7 @@ function constructURL(req, res) {
     URL = `${URL}&offset=${randomNum}`;
     console.log(`Got ${value.data.total} experiences`);
     console.log(URL);
-    getExperience(URL, req, res);
+    getExperience(URL, res);
   }).catch((err) => {
     console.log(`Error on initial Yelp request ${err}`);
     return err;
