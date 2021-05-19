@@ -124,11 +124,7 @@ function constructURL(req, res) {
     URL = `${URL}&offset=${randomNum}`;
     console.log(`Got ${value.data.total} experiences`);
     console.log(URL);
-<<<<<<< HEAD
     getExperience(URL, res);
-=======
-    getExperience(URL, req, res);
->>>>>>> f66d3939c31db96e10f193b152c2d0f9f23a0c62
   }).catch((err) => {
     console.log(`Error on initial Yelp request ${err}`);
     return err;
