@@ -3,31 +3,12 @@ require('dotenv').config();
 const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
+const bing = require('bing-scraper');
 
 // Whitelist is localhost:3000 for development and production site URL
 const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://screwthereview.netlify.app'];
 
 const baseURL = 'https://api.yelp.com/v3/businesses/search';
-// eslint-disable-next-line no-unused-vars
-const descURL = 'https://www.yelp.com/biz/'; // TBD, this could change
-
-// Scrapes description and hours from Yelp business page
-// eslint-disable-next-line no-unused-vars
-function scrapeDescription(biz) {
-  // let scrape_response = await axios(descURL + biz.id).catch((err) => console.log(err));
-
-  // if(scrape_response.status !== 200){
-  //     console.log("Error occurred while fetching data");
-  //     return;
-  // };
-
-  // TODO: parse description and hours here
-  return { description: 'Test Description' };
-  // console.log(response)
-  // hours table - Class contains OpenhoursOpenhoursrow
-  // description - Class starts w
-  // $('[class^="business"]').get()
-}
 
 // Returns a new experience from the Yelp API
 function getExperience(URL, res) {
@@ -47,13 +28,21 @@ function getExperience(URL, res) {
       console.log(`Found business ${randomBiz.name}`);
 
       // TODO: Scrape and append Business Description and Hours to business
-      const bizDescription = scrapeDescription(randomBiz);
-      console.log(`Found description: ${bizDescription}`);
-      randomBiz = { ...randomBiz, ...bizDescription };
-
-      res.write(JSON.stringify(randomBiz));
+      bing.search({
+        q: randomBiz.alias,
+        enforceLanguage: true,
+      }, (err, resp) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`Found description: ${resp.results[1].description}`);
+          const desc = { description: resp.results[1].description };
+          randomBiz = { ...randomBiz, ...desc };
+          res.write(JSON.stringify(randomBiz));
+          res.send();
+        }
+      });
     }
-    res.send();
   }).catch((err) => {
     if (err.response) {
       // client received an error response (5xx, 4xx)
