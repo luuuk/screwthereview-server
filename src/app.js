@@ -30,7 +30,7 @@ function scrapeDescription(biz) {
 }
 
 // Returns a new experience from the Yelp API
-function getExperience(URL, response) {
+function getExperience(URL, res) {
   axios.get(URL, {
     headers: {
       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
@@ -39,11 +39,11 @@ function getExperience(URL, response) {
     const randomNum = Math.floor(Math.random() * value.data.businesses.length);
     let randomBiz = value.data.businesses[randomNum];
     if (!randomBiz) {
-      response.writeHead(404, { 'Content-Type': 'text/json' });
-      response.write('Unable to find experience. Loosen filter requirements and try again.');
+      res.writeHead(404, { 'Content-Type': 'text/json' });
+      res.write('Unable to find experience. Loosen filter requirements and try again.');
       console.log('Unable to find experience. Client should loosen filter requirements and try again.');
     } else {
-      response.writeHead(200, { 'Content-Type': 'text/json' });
+      res.writeHead(200, { 'Content-Type': 'text/json' });
       console.log(`Found business ${randomBiz.name}`);
 
       // TODO: Scrape and append Business Description and Hours to business
@@ -51,26 +51,26 @@ function getExperience(URL, response) {
       console.log(`Found description: ${bizDescription}`);
       randomBiz = { ...randomBiz, ...bizDescription };
 
-      response.write(JSON.stringify(randomBiz));
+      res.write(JSON.stringify(randomBiz));
     }
-    response.send();
+    res.send();
   }).catch((err) => {
     if (err.response) {
       // client received an error response (5xx, 4xx)
-      response.writeHead(err.response.status, '500');
-      response.write("Yelp doesn't like your request. Try again. Remember, categories must be valid from Yelp and price must be an int between 1 and 4");
+      res.writeHead(err.response.status);
+      res.write("Yelp doesn't like your request. Try again. Remember, categories must be valid from Yelp and price must be an int between 1 and 4");
       console.log('Error from Yelp');
       console.log(err.response);
     } else if (err.request) {
       // client never received a response, or request never left
-      response.writeHead(err.request, '500');
+      res.writeHead(err.request, '500');
       console.log('Error sending request');
     } else {
       // anything else
       console.log('Unidentified error');
       console.log(err);
     }
-    response.end();
+    res.end();
   });
 }
 
@@ -111,6 +111,7 @@ function constructURL(req, res) {
 
   URL += '&limit=50';
 
+  console.log(`making initial call to ${URL}`);
   axios.get(URL, {
     headers: {
       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
@@ -119,11 +120,15 @@ function constructURL(req, res) {
     const randomNum = Math.floor(Math.random() * Math.min(value.data.total, 1000));
     URL = `${URL}&offset=${randomNum}`;
     console.log(`Got ${value.data.total} experiences`);
-    console.log(URL);
     getExperience(URL, res);
   }).catch((err) => {
-    console.log(`Error on initial Yelp request ${err}`);
-    return err;
+    console.log(`Error on initial Yelp request: ${err}`);
+    const temp = err.toJSON();
+    console.log(temp);
+    // client received an error response (5xx, 4xx)
+    res.writeHead(err.response.status);
+    res.write("Yelp doesn't like your request. Try again. Remember, categories must be valid from Yelp and price must be an int between 1 and 4");
+    res.end();
   });
 }
 

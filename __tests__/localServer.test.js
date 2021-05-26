@@ -1,50 +1,41 @@
-// /* eslint-disable no-undef */
-// /* eslint-disable indent */
-// const request = require('supertest');
-// const app = require('../src/app');
-// const nock = require('nock');
-// const response = require('./response.json');
+/* eslint-disable no-undef */
+/* eslint-disable indent */
+const axios = require('axios');
+const request = require('supertest');
+const app = require('../src/app');
+const response = require('./response.json');
+const noResultsResponse = require('./noResultsResponse.json');
 
-// // describe('Local tests ', () => {
-// //   test('ensures that the locally deployed server is functional', () => 
-// //     // eslint-disable-next-line max-len
-// // eslint-disable-next-line max-len
-// eslint-disable-next-line max-len
-// //     // const response = await request(app).get('/').set('location', 'austin').set('Authorization', `Bearer ${process.env.YELP_API_KEY}`);
-// //     // expect(response.statusCode).toBe(200);
-// //     // return request(app).get('/').set('location', 'austin')
-// //     // .set('Authorization', `Bearer ${process.env.YELP_API_KEY}`)
-// //     // .expect(200);
-// //   )
-// // });
+jest.mock('axios');
 
-// // describe('Test the root path', () => {
-// //   test('It should response the GET method', (done) => {
-// //     request(app)
-// eslint-disable-next-line max-len
-// //       .get('/').set('location', 'austin').set('Authorization', `Bearer ${process.env.YELP_API_KEY}`)
-// //       .then((response) => {
-// //         expect(response.statusCode).toBe(200);
-// //         done();
-// //       });
-// //   });
-// // });
+describe('Get Experience Tests', () => {
+  // eslint-disable-next-line arrow-body-style
+  it('Get an experience with location and Auth header tokens should work', (done) => {
+    axios.get.mockImplementation(() => Promise.resolve(response));
+    request(app).get('/').set('location', 'austin').then((value) => {
+        expect(value.statusCode).toBe(200);
+        done();
+      });
+  });
 
-// describe('Get User tests', () => {
-//   beforeEach(() => {
-//     nock('https://api.yelp.com/v3')
-//       .get('/businesses/search?location=austin&limit=50')
-//       .reply(200, response);
-//   });
+  // eslint-disable-next-line arrow-body-style
+  it('Get an experience without location should return error', (done) => {
+    axios.get.mockImplementation(() => Promise.resolve(response));
+    request(app).get('/').then((value) => {
+        expect(value.statusCode).toBe(404);
+        expect(value.text).toBe('No location provided - please input a location');
+        done();
+      });
+  });
 
-//   // eslint-disable-next-line arrow-body-style
-//   it('Get a user by username', (done) => {
-//     request(app)
-// eslint-disable-next-line max-len
-//       .get('/').set('location', 'austin').set('Authorization', `Bearer ${process.env.YELP_API_KEY}`)
-//       .then((response) => {
-//         expect(response.statusCode).toBe(200);
-//         done();
-//       });
-//   });
-// });
+  // eslint-disable-next-line arrow-body-style
+  it('Get experience with too strict filters should return error', (done) => {
+    axios.get.mockImplementationOnce(() => Promise.resolve(response))
+    .mockImplementationOnce(() => Promise.resolve(noResultsResponse));
+    request(app).get('/').set('location', 'austin').then((value) => {
+        expect(value.statusCode).toBe(404);
+        expect(value.text).toBe('Unable to find experience. Loosen filter requirements and try again.');
+        done();
+      });
+  });
+});

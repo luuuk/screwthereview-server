@@ -1,0 +1,12 @@
+{  
+  "data": {
+    "businesses": [],
+    "total": 0,
+    "region": {
+        "center": {
+            "longitude": -97.75772094726562,
+            "latitude": 30.305156315977833
+        }
+    }
+  }
+}
