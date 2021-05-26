@@ -7,7 +7,7 @@ request = request(URL);
 const yelpIDLength = 22;
 
 describe('Server tests ', () => {
-  it('ensures that the heroku deployed server is functional', async () => {
+  it.skip('ensures that the heroku deployed server is functional', async () => {
       const response = await request.get('').set('location', 'austin');
       const result = JSON.parse(response.text);
       expect(result.id).toHaveLength(yelpIDLength);
