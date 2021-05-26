@@ -18,6 +18,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "babel-preset-env": "^1.7.0",
+    "bing-scraper": "^1.4.10",
     "cors": "^2.8.5",
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
