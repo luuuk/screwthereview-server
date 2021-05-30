@@ -9,6 +9,7 @@ const bing = require('bing-scraper');
 const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://screwthereview.netlify.app'];
 
 const baseURL = 'https://api.yelp.com/v3/businesses/search';
+const detailsURL = 'https://api.yelp.com/v3/businesses/';
 
 // Returns a new experience from the Yelp API
 function getExperience(URL, res) {
@@ -27,21 +28,36 @@ function getExperience(URL, res) {
       res.writeHead(200, { 'Content-Type': 'text/json' });
       console.log(`Found business ${randomBiz.name}`);
 
-      // Scrape and append Business Description and Hours to business
-      console.log(`Querying bing for description with ${randomBiz.name} Restaurant`);
-      bing.search({
-        q: `${randomBiz.name} Restaurant`,
-        enforceLanguage: true,
-      }, (err, resp) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(`Found description: ${resp.sidebar.snippet}`);
-          const desc = { description: resp.sidebar.snippet };
-          randomBiz = { ...randomBiz, ...desc };
-          res.write(JSON.stringify(randomBiz));
-          res.send();
-        }
+      // get biz details for hours
+      axios.get(detailsURL + randomBiz.id, {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        },
+      }).then((details) => {
+        randomBiz = details.data;
+        // Scrape and append Business Description and Hours to business
+        console.log(`Querying bing for description with ${randomBiz.name} Restaurant`);
+        bing.search({
+          q: `${randomBiz.name} Restaurant`,
+          enforceLanguage: true,
+        }, (err, resp) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Found description: ${resp.sidebar.snippet}`);
+            const desc = { description: resp.sidebar.snippet };
+            randomBiz = { ...randomBiz, ...desc };
+            res.write(JSON.stringify(randomBiz));
+            res.send();
+          }
+        });
+      }).catch((err) => {
+        console.log(`Error on details Yelp request to get hours: ${err}`);
+        console.log(err.toJSON());
+        // client received an error response (5xx, 4xx)
+        res.writeHead(err.response.status);
+        res.write("Yelp doesn't like the detailed follow-up request. Try again. Remember, categories must be valid from Yelp and price must be an int between 1 and 4");
+        res.end();
       });
     }
   }).catch((err) => {
@@ -107,6 +123,7 @@ function constructURL(req, res) {
       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
     },
   }).then((value) => {
+    // Received businesses - pick one specific biz and continue
     const randomNum = Math.floor(Math.random() * Math.min(value.data.total, 950));
     URL = `${URL}&offset=${randomNum}`;
     console.log(`Got ${value.data.total} experiences`);
