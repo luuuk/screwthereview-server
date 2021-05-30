@@ -29,14 +29,15 @@ function getExperience(URL, res) {
 
       // TODO: Scrape and append Business Description and Hours to business
       bing.search({
-        q: randomBiz.alias,
+        q: randomBiz.alias + randomBiz.location,
         enforceLanguage: true,
       }, (err, resp) => {
         if (err) {
           console.log(err);
         } else {
           console.log(`Found description: ${resp.results[1].description}`);
-          const desc = { description: resp.results[1].description };
+          const desc = { description: resp.sidebar.snippet };
+          // const desc = { description: resp.results[1].description };
           randomBiz = { ...randomBiz, ...desc };
           res.write(JSON.stringify(randomBiz));
           res.send();

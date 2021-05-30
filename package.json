@@ -5,7 +5,8 @@
   "main": "scrape.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest --testPathPattern=../__tests__"
+    "test": "jest --testPathPattern=../__tests__",
+    "postinstall": "cd ./node_modules/bing-scraper && npm install && npm run build"
   },
   "jest": {
     "globals": {
@@ -18,7 +19,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "babel-preset-env": "^1.7.0",
-    "bing-scraper": "^1.4.10",
+    "bing-scraper": "https://github.com/luuuk/bing-scraper.git",
     "cors": "^2.8.5",
     "dotenv": "^9.0.0",
     "express": "^4.17.1",
