@@ -1459,10 +1459,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bing-scraper@^1.4.10:
+"bing-scraper@https://github.com/luuuk/bing-scraper.git":
   version "1.4.10"
-  resolved "https://registry.yarnpkg.com/bing-scraper/-/bing-scraper-1.4.10.tgz#4e84b080d3334f66487cb663fc78f46ec5ee9810"
-  integrity sha512-73cbbXv30x+EbFK8mk5ilCiopNgemquWhlVNVLmvZPTSv6FkcXwtp8aWufQDQIcAy4R4zlWmeh1T2kQnLGeX8Q==
+  resolved "https://github.com/luuuk/bing-scraper.git#d3401ec15694d5e3b4469dc5607618934803fa65"
   dependencies:
     cheerio "^1.0.0-rc.5"
     got "^11.8.2"

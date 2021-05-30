@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "test": "jest --testPathPattern=../__tests__",
-    "postinstall": "cd ./node_modules/bing-scraper && npm install && npm run build"
+    "postinstall": "cd ./node_modules/bing-scraper && yarn install"
   },
   "jest": {
     "globals": {
