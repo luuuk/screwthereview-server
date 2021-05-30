@@ -27,9 +27,10 @@ function getExperience(URL, res) {
       res.writeHead(200, { 'Content-Type': 'text/json' });
       console.log(`Found business ${randomBiz.name}`);
 
-      // TODO: Scrape and append Business Description and Hours to business
+      // Scrape and append Business Description and Hours to business
+      console.log(`Querying bing for description with ${randomBiz.name} Restaurant`);
       bing.search({
-        q: randomBiz.alias + randomBiz.location,
+        q: `${randomBiz.name} Restaurant`,
         enforceLanguage: true,
       }, (err, resp) => {
         if (err) {
@@ -37,7 +38,6 @@ function getExperience(URL, res) {
         } else {
           console.log(`Found description: ${resp.sidebar.snippet}`);
           const desc = { description: resp.sidebar.snippet };
-          // const desc = { description: resp.results[1].description };
           randomBiz = { ...randomBiz, ...desc };
           res.write(JSON.stringify(randomBiz));
           res.send();
@@ -107,7 +107,7 @@ function constructURL(req, res) {
       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
     },
   }).then((value) => {
-    const randomNum = Math.floor(Math.random() * Math.min(value.data.total, 1000));
+    const randomNum = Math.floor(Math.random() * Math.min(value.data.total, 950));
     URL = `${URL}&offset=${randomNum}`;
     console.log(`Got ${value.data.total} experiences`);
     getExperience(URL, res);
