@@ -35,7 +35,7 @@ function getExperience(URL, res) {
         if (err) {
           console.log(err);
         } else {
-          console.log(`Found description: ${resp.results[1].description}`);
+          console.log(`Found description: ${resp.sidebar.snippet}`);
           const desc = { description: resp.sidebar.snippet };
           // const desc = { description: resp.results[1].description };
           randomBiz = { ...randomBiz, ...desc };
